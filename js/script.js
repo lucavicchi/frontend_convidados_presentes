@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Create an XMLHttpRequest to send JSON data
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://localhost:8080/api/guest', true);
+        xhr.open('POST', 'https://birthday-helper-63535451b824.herokuapp.com/api/guest', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch gift data and populate the select element
     function populateGifts() {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:8080/api/gifts', true);
+        xhr.open('GET', 'https://birthday-helper-63535451b824.herokuapp.com/api/gifts', true);
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
