@@ -18,10 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     console.log('Form submitted successfully:', xhr.responseText);
-                    document.getElementById('response').innerText = 'Form submitted successfully!';
+                    alert('Obrigada =)'); // Pop-up for successful submission
+                    location.reload(); // Refresh the page to see the updated list
                 } else {
                     console.error('Form submission failed:', xhr.status, xhr.statusText);
-                    document.getElementById('response').innerText = 'Form submission failed!';
+                    alert('Form submission failed!');
                 }
             }
         };
@@ -49,13 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Add the default and segmentation options
                     giftSelect.innerHTML = `
                         <option value="">Selecione um presente</option>
-                        <option value="" style="color: navy; font-size: 14px; font-weight: bold" disabled>R$ 50 até R$ 100</option>
-                        <option value="" style="color: navy; font-size: 14px; font-weight: bold" disabled>R$ 100 até R$ 150</option>
-                        <option value="" style="color: navy; font-size: 14px; font-weight: bold" disabled>R$ 150 até R$ 200</option>
-                        <option value="" style="color: navy; font-size: 14px; font-weight: bold" disabled>R$ 200 até R$ 250</option>
-                        <option value="" style="color: navy; font-size: 14px; font-weight: bold" disabled>R$ 250 até R$ 300</option>
-                        <option value="" style="color: navy; font-size: 14px; font-weight: bold" disabled>R$ 300 até R$ 450</option>
-                        <option value="" style="color: navy; font-size: 14px; font-weight: bold" disabled>R$ 450 até R$ 650</option>
                     `;
 
                     // Group the gifts by segmentation
@@ -82,10 +76,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         data.filter(item => item.segmentation === segment && !item.bought).forEach(item => {
                             const option = document.createElement('option');
                             option.value = item.gift;
-                            option.textContent = `${item.gift} (${item.giftUrl})`;
+                            option.dataset.giftUrl = item.giftUrl;
+                            option.textContent = item.gift;
                             giftSelect.appendChild(option);
                         });
                     }
+
+                    // Add event listener to display gift link when a gift is selected
+                    giftSelect.addEventListener('change', (event) => {
+                        const selectedOption = event.target.selectedOptions[0];
+                        const giftLinkDisplay = document.getElementById('giftLinkDisplay');
+                        if (selectedOption && selectedOption.dataset.giftUrl) {
+                            giftLinkDisplay.innerHTML = `Link: <a href="${selectedOption.dataset.giftUrl}" target="_blank">${selectedOption.dataset.giftUrl}</a>`;
+                        } else {
+                            giftLinkDisplay.innerHTML = '';
+                        }
+                    });
                 } else {
                     console.error('Fetch error:', xhr.status, xhr.statusText); // Debugging: Log fetch errors
                 }
